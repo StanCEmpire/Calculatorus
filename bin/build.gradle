@@ -2,21 +2,13 @@ plugins
 {
 
 	id 'org.openjfx.javafxplugin' version '0.0.13'
-	id 'java'
-
-}
-
-repositories
-{
-
-	mavenCentral()
 
 }
 
 javafx
 {
 
-	version = '17'
+	version = '12'
 	modules = ['javafx.controls']
 
 }
