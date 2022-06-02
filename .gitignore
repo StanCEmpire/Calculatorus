@@ -3,4 +3,4 @@ build
 .project
 .classpath
 bin/
-.settings
+.settings/
