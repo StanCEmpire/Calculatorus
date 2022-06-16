@@ -1,5 +1,7 @@
 package stancempire.calculatorus.math;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 public class InputReader
@@ -32,7 +34,7 @@ public class InputReader
 		
 	}
 	
-	public double compute()
+	public BigDecimal compute()
 	{
 		
 		while(input.contains(Operations.MULTIPLY) || input.contains(Operations.DIVIDE))
@@ -46,7 +48,9 @@ public class InputReader
 				if(input.get(index).equals(Operations.MULTIPLY))
 				{
 					
-					double calc = Double.parseDouble(input.get(index - 1)) * Double.parseDouble(input.get(index + 1));
+					BigDecimal a = new BigDecimal(input.get(index - 1));
+					BigDecimal b = new BigDecimal(input.get(index + 1));
+					BigDecimal calc = a.multiply(b, MathContext.DECIMAL128);
 					input.set(index, "" + calc);
 					input.remove(index + 1);
 					input.remove(index - 1);
@@ -55,7 +59,9 @@ public class InputReader
 				else if(input.get(index).equals(Operations.DIVIDE))
 				{
 					
-					double calc = Double.parseDouble(input.get(index - 1)) / Double.parseDouble(input.get(index + 1));
+					BigDecimal a = new BigDecimal(input.get(index - 1));
+					BigDecimal b = new BigDecimal(input.get(index + 1));
+					BigDecimal calc = a.divide(b, MathContext.DECIMAL128);
 					input.set(index, "" + calc);
 					input.remove(index + 1);
 					input.remove(index - 1);
@@ -77,7 +83,9 @@ public class InputReader
 				if(input.get(index).equals(Operations.ADD))
 				{
 					
-					double calc = Double.parseDouble(input.get(index - 1)) + Double.parseDouble(input.get(index + 1));
+					BigDecimal a = new BigDecimal(input.get(index - 1));
+					BigDecimal b = new BigDecimal(input.get(index + 1));
+					BigDecimal calc = a.add(b, MathContext.DECIMAL128);
 					input.set(index, "" + calc);
 					input.remove(index + 1);
 					input.remove(index - 1);
@@ -86,7 +94,9 @@ public class InputReader
 				else if(input.get(index).equals(Operations.SUBTRACT))
 				{
 					
-					double calc = Double.parseDouble(input.get(index - 1)) - Double.parseDouble(input.get(index + 1));
+					BigDecimal a = new BigDecimal(input.get(index - 1));
+					BigDecimal b = new BigDecimal(input.get(index + 1));
+					BigDecimal calc = a.subtract(b, MathContext.DECIMAL128);
 					input.set(index, "" + calc);
 					input.remove(index + 1);
 					input.remove(index - 1);
@@ -97,7 +107,7 @@ public class InputReader
 			
 		}
 		
-		return Double.parseDouble(input.get(0));
+		return BigDecimal.valueOf(Double.parseDouble(input.get(0)));
 		
 	}
 	

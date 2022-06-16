@@ -1,5 +1,7 @@
 package stancempire.calculatorus;
 
+import java.math.BigDecimal;
+
 import stancempire.calculatorus.math.InputReader;
 
 public class Main
@@ -9,9 +11,9 @@ public class Main
 	{
 				
 		
-		CalculatorusLauncher.main(args);
+		//CalculatorusLauncher.main(args);
 		
-		double result = InputReader.createReader("2'over'3'times'3'over'4'plus'2").compute();
+		BigDecimal result = InputReader.createReader("1'plus'1'over'3").compute();
 		System.out.println(result);
 		
 	}
