@@ -2,6 +2,7 @@ package stancempire.calculatorus.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class CalcMath
 {
@@ -25,7 +26,7 @@ public class CalcMath
 			
 		}
 		
-		return result.round(MathContext.DECIMAL128);
+		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -48,7 +49,7 @@ public class CalcMath
 			
 		}
 		
-		return result.round(MathContext.DECIMAL128);
+		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -75,21 +76,21 @@ public class CalcMath
 			
 		}
 		
-		return result.round(MathContext.DECIMAL128);
+		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal cosine(BigDecimal x)
 	{
 		
-		return sine(x.add(BigDecimal.valueOf(Math.PI/2)));
+		return sine(x.add(BigDecimal.valueOf(Math.PI/2))).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal tangent(BigDecimal x)
 	{
 		
-		return sine(x).divide(cosine(x), MathContext.DECIMAL128);
+		return sine(x).divide(cosine(x), MathContext.DECIMAL128).stripTrailingZeros();
 		
 	}
 	
