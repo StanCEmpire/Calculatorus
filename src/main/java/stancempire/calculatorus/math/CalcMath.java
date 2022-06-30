@@ -108,4 +108,14 @@ public class CalcMath
 		
 	}
 	
+	public static ComplexNumber rcis(BigDecimal modulus, BigDecimal argument)
+	{
+		
+		BigDecimal real = modulus.multiply(cosine(argument));
+		BigDecimal imaginary = modulus.multiply(sine(argument));
+		
+		return ComplexNumber.of(real, imaginary);
+		
+	}
+	
 }
