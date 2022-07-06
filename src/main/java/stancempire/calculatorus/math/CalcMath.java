@@ -19,7 +19,7 @@ public class CalcMath
 			
 		}
 		
-		for(int i = 1; i < b; i++)
+		for(int n = 1; n < b; n++)
 		{
 			
 			result = result.multiply(a);
@@ -30,22 +30,22 @@ public class CalcMath
 		
 	}
 	
-	public static BigDecimal fac(int n)
+	public static BigDecimal fac(int x)
 	{
 		
-		BigDecimal result = BigDecimal.valueOf(n);
+		BigDecimal result = BigDecimal.valueOf(x);
 
-		if(n == 0)
+		if(x == 0)
 		{
 			
 			return BigDecimal.ONE;
 			
 		}
 		
-		for(int i = 1; i < n; i++)
+		for(int n = 1; n < x; n++)
 		{
 			
-			result = result.multiply(BigDecimal.valueOf(n - i));
+			result = result.multiply(BigDecimal.valueOf(x - n));
 			
 		}
 		
@@ -60,10 +60,10 @@ public class CalcMath
 		
 		BigDecimal sX = x.subtract(BigDecimal.valueOf(2*Math.PI*Math.floor(x.doubleValue()/(2*Math.PI))));
 		
-		for(int i = 0; i < 100; i++)
+		for(int n = 0; n < 100; n++)
 		{
 			
-			result = result.add(pow(sX, 2*i+1).divide(fac(2*i+1), MathContext.DECIMAL128).multiply(pow(BigDecimal.valueOf(-1), i)));
+			result = result.add(pow(sX, 2*n+1).divide(fac(2*n+1), MathContext.DECIMAL128).multiply(pow(BigDecimal.valueOf(-1), n)));
 			
 		}
 		
@@ -94,10 +94,10 @@ public class CalcMath
 		
 	}
 	
-	public static boolean isEven(int n)
+	public static boolean isEven(int x)
 	{
 		
-		if(n/2*2 == n)
+		if(x/2*2 == x)
 		{
 			
 			return true;
@@ -118,4 +118,24 @@ public class CalcMath
 		
 	}
 	
+	public static BigDecimal arcSine(BigDecimal x)
+	{
+		
+		return BigDecimal.valueOf(Math.asin(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		
+	}
+	
+	public static BigDecimal arcCosine(BigDecimal x)
+	{
+		
+		return BigDecimal.valueOf(Math.acos(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		
+	}
+	
+	public static BigDecimal arcTangent(BigDecimal x)
+	{
+		
+		return BigDecimal.valueOf(Math.atan(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		
+	}
 }

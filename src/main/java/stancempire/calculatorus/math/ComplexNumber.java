@@ -107,4 +107,11 @@ public class ComplexNumber
 		
 	}
 	
+	public BigDecimal getArgument()
+	{
+		
+		return CalcMath.arcTangent(getImaginaryPart().divide(getRealPart(), MathContext.DECIMAL128)).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		
+	}
+	
 }
