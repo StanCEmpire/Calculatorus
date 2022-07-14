@@ -2,6 +2,7 @@ package stancempire.calculatorus.math;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class InputReader
@@ -107,7 +108,7 @@ public class InputReader
 			
 		}
 		
-		return BigDecimal.valueOf(Double.parseDouble(input.get(0)));
+		return BigDecimal.valueOf(Double.parseDouble(input.get(0))).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
