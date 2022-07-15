@@ -30,7 +30,7 @@ public class InputReader
 			input.add(inputSequence[i]);
 			
 		}
-		
+				
 		return new InputReader(input);
 		
 	}
@@ -40,7 +40,7 @@ public class InputReader
 		
 		while(input.contains(Operations.MULTIPLY) || input.contains(Operations.DIVIDE))
 		{
-			
+
 			int index = indexOfEither(Operations.MULTIPLY, Operations.DIVIDE);
 			
 			if(index > 0)
@@ -55,6 +55,7 @@ public class InputReader
 					input.set(index, "" + calc);
 					input.remove(index + 1);
 					input.remove(index - 1);
+					
 					
 				}
 				else if(input.get(index).equals(Operations.DIVIDE))
@@ -108,7 +109,7 @@ public class InputReader
 			
 		}
 		
-		return BigDecimal.valueOf(Double.parseDouble(input.get(0))).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return new BigDecimal(input.get(0)).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	

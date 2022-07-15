@@ -4,9 +4,13 @@ public class Operations
 {
 
 	//standard operations
-	public static final String ADD = "plus";
-	public static final String SUBTRACT = "minus";
-	public static final String MULTIPLY = "times";
-	public static final String DIVIDE = "over";
+	public static final String ADD = "+";
+	public static final String SUBTRACT = "-";
+	public static final String DIVIDE = "÷";
+	public static final String MULTIPLY = "×";
+	
+	public static final String SINE = "sine";
+	public static final String COSINE = "cosine";
+	public static final String TANGENT = "tangent";
 	
 }

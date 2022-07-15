@@ -10,6 +10,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import stancempire.calculatorus.math.InputReader;
+import stancempire.calculatorus.math.Operations;
 
 public class CalculatorusLauncher extends Application
 {
@@ -18,6 +19,8 @@ public class CalculatorusLauncher extends Application
 	private final Font inputFont = Font.font("Times New Roman", FontWeight.NORMAL, FontPosture.ITALIC, 36);
 	
 	private Text inputText = new Text();
+	private String visibleInputString = "";
+	
 	private String inputString = "";
 	
 	private Text outputText = new Text();
@@ -48,12 +51,21 @@ public class CalculatorusLauncher extends Application
 		addNumberButton(100, 60, 100, 360, 8, pane);
 		addNumberButton(100, 60, 200, 360, 9, pane);
 		
-		//Evaluate Button
+		//Standard calculator buttons
 		addEvaluateButton(100, 60, 300, 540, pane);
+		addAllClearButton(100, 60, 100, 540, pane);
+		addDelButton(100, 60, 200, 540, pane);
 		
+		//Basic operation buttons
+		addBasicOperationButton(50, 60, 300, 480, "+", Operations.ADD, pane);
+		addBasicOperationButton(50, 60, 350, 480, "-", Operations.SUBTRACT, pane);
+		addBasicOperationButton(50, 60, 300, 420, "×", Operations.MULTIPLY, pane);
+		addBasicOperationButton(50, 60, 350, 420, "÷", Operations.DIVIDE, pane);
+
+		
+		//Input and output
 		addText(5, 5, inputText, pane);
 		addText(5, 50, outputText, pane);
-
 		
 		stage.setScene(new Scene(pane, 400, 600));
 		stage.setResizable(false);
@@ -75,8 +87,9 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addInput(String.valueOf(numberStr));
-			
+			addToInput(numberStr);
+			addToVisibleInput(numberStr);
+
 		});
 		
 		pane.getChildren().add(button);
@@ -105,6 +118,87 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
+	private void addAllClearButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("AC");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			setInput("");
+			setVisibleInput("");
+			setOutput("");
+			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addDelButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("DEL");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			setOutput("");
+			setVisibleInput(visibleInputString.substring(0, visibleInputString.length() - 1));
+			
+			if(inputString.lastIndexOf("'") == inputString.length() - 1)
+			{
+				
+				inputString = inputString.substring(0, inputString.length() - 1);
+				inputString = inputString.substring(0, inputString.lastIndexOf("'"));
+				setInput(inputString);
+								
+			}
+			else
+			{
+				
+				setInput(inputString.substring(0, inputString.length() - 1));
+				
+			}
+
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addBasicOperationButton(int width, int height, int x, int y, String displayString, String internalString, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText(displayString);
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'" + internalString + "'");
+			addToVisibleInput(displayString);
+						
+		});
+		
+		pane.getChildren().add(button);
+	}
+	
 	private void addText(int x, int y, Text text, Pane pane)
 	{
 		
@@ -114,19 +208,19 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addInput(String input)
+	private void addToInput(String input)
 	{
 		
-		if(!outputString.isEmpty())
+		if(!outputString.equals(""))
 		{
 			
 			setOutput("");
 			setInput("");
+			setVisibleInput("");
 			
 		}
 		
 		inputString = inputString + input;
-		inputText.setText(inputString);
 		
 	}
 	
@@ -134,8 +228,23 @@ public class CalculatorusLauncher extends Application
 	{
 		
 		inputString = input;
-		inputText.setText(inputString);
 		
+	}
+	
+	private void addToVisibleInput(String input)
+	{
+		
+		visibleInputString = visibleInputString + input;
+		inputText.setText(visibleInputString);
+		
+	}
+	
+	private void setVisibleInput(String input)
+	{
+		
+		visibleInputString = input;
+		inputText.setText(visibleInputString);
+
 	}
 	
 	private void setOutput(String output)
