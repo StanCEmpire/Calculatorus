@@ -26,6 +26,8 @@ public class CalculatorusLauncher extends Application
 	private Text outputText = new Text();
 	private String outputString = "";
 	
+	private int pNum = 0;
+	
 	public static void main(String[] args)
 	{
 		
@@ -62,6 +64,9 @@ public class CalculatorusLauncher extends Application
 		addBasicOperationButton(50, 60, 300, 420, "×", Operations.MULTIPLY, pane);
 		addBasicOperationButton(50, 60, 350, 420, "÷", Operations.DIVIDE, pane);
 
+		//Parenthesis
+		addOpenParenthesisButton(50, 60, 300, 360, pane);
+		addCloseParenthesisButton(50, 60, 350, 360, pane);
 		
 		//Input and output
 		addText(5, 5, inputText, pane);
@@ -108,6 +113,25 @@ public class CalculatorusLauncher extends Application
 		
 		button.setOnMousePressed(event ->
 		{
+			
+			//remove separator from start
+			if(inputString.charAt(0) == '\'')
+			{
+				
+				inputString = inputString.substring(1);
+				
+			}
+			
+			//remove separator from end
+			if(inputString.charAt(inputString.length() - 1) == '\'')
+			{
+				
+				inputString = inputString.substring(0, inputString.length() - 1);
+				
+			}
+			
+			//remove double separators from symbols placed next to each other
+			inputString = inputString.replace("''", "'");
 			
 			InputReader reader = InputReader.createReader(inputString);
 			setOutput(reader.compute().toPlainString());
@@ -197,6 +221,52 @@ public class CalculatorusLauncher extends Application
 		});
 		
 		pane.getChildren().add(button);
+	}
+	
+	private void addOpenParenthesisButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("(");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'" + "*" + pNum + "(" + "'");
+			addToVisibleInput("(");
+			pNum++;
+			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addCloseParenthesisButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText(")");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'" + ")" + (pNum - 1) + "*" + "'");
+			addToVisibleInput(")");
+			pNum--;
+			
+		});
+		
+		pane.getChildren().add(button);
+		
 	}
 	
 	private void addText(int x, int y, Text text, Pane pane)

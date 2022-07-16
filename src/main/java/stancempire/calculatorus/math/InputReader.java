@@ -9,11 +9,13 @@ public class InputReader
 {
 
 	private ArrayList<String> input;
+	private int pNum;
 	
-	private InputReader(ArrayList<String> input)
+	private InputReader(ArrayList<String> input, int pNum)
 	{
 		
 		this.input = input;
+		this.pNum = pNum;
 		
 	}
 	
@@ -31,12 +33,43 @@ public class InputReader
 			
 		}
 				
-		return new InputReader(input);
+		return new InputReader(input, 0);
+		
+	}
+	
+	private InputReader createInternalReader(ArrayList<String> input, int pNum)
+	{
+				
+		return new InputReader(input, pNum);
 		
 	}
 	
 	public BigDecimal compute()
 	{
+		
+		System.out.println(input);
+
+		
+		while(input.contains("*" + pNum + "("))
+		{
+			
+			int oIndex = input.indexOf("*" + pNum + "(");
+			int cIndex = input.indexOf(")" + pNum + "*");
+						
+			BigDecimal calc = createInternalReader(new ArrayList<String>(input.subList(oIndex + 1, cIndex)), ++pNum).compute();
+			
+			for(int i = cIndex; i > oIndex; i--)
+			{
+				
+				input.remove(i);
+				
+			}
+			
+			input.set(oIndex, calc.toPlainString());
+			System.out.println(input);
+			pNum--;			
+			
+		}
 		
 		while(input.contains(Operations.MULTIPLY) || input.contains(Operations.DIVIDE))
 		{
