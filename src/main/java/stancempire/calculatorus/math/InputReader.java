@@ -46,7 +46,7 @@ public class InputReader
 	
 	public BigDecimal compute()
 	{
-		System.out.println(input);
+		
 		while(input.contains(pNum + "("))
 		{
 			
@@ -63,7 +63,6 @@ public class InputReader
 			}
 			
 			input.set(oIndex, calc.toPlainString());
-			System.out.println(input);
 			pNum--;			
 			
 		}

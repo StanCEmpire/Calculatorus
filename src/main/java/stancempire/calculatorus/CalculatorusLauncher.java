@@ -60,10 +60,10 @@ public class CalculatorusLauncher extends Application
 		addDelButton(100, 60, 200, 540, pane);
 		
 		//Basic operation buttons
-		addBasicOperationButton(50, 60, 300, 480, "+", Operations.ADD, pane);
-		addBasicOperationButton(50, 60, 350, 480, "-", Operations.SUBTRACT, pane);
-		addBasicOperationButton(50, 60, 300, 420, "×", Operations.MULTIPLY, pane);
-		addBasicOperationButton(50, 60, 350, 420, "÷", Operations.DIVIDE, pane);
+		addBasicOperationButton(50, 60, 300, 480, Operations.ADD, Operations.ADD, pane);
+		addBasicOperationButton(50, 60, 350, 480, Operations.SUBTRACT, Operations.SUBTRACT, pane);
+		addBasicOperationButton(50, 60, 300, 420, Operations.MULTIPLY, Operations.MULTIPLY, pane);
+		addBasicOperationButton(50, 60, 350, 420, Operations.DIVIDE, Operations.DIVIDE, pane);
 
 		//Parenthesis
 		addOpenParenthesisButton(50, 60, 300, 360, pane);
