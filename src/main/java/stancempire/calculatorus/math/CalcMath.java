@@ -83,14 +83,14 @@ public class CalcMath
 	public static BigDecimal cosine(BigDecimal x)
 	{
 		
-		return sine(x.add(BigDecimal.valueOf(Math.PI/2))).stripTrailingZeros();
+		return sine(x.add(BigDecimal.valueOf(Math.PI/2))).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal tangent(BigDecimal x)
 	{
 		
-		return sine(x).divide(cosine(x), MathContext.DECIMAL128).stripTrailingZeros();
+		return sine(x).divide(cosine(x), MathContext.DECIMAL128).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	

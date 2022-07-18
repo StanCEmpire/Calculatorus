@@ -10,6 +10,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import stancempire.calculatorus.math.InputReader;
+import stancempire.calculatorus.math.MathConstants;
 import stancempire.calculatorus.math.Operations;
 
 public class CalculatorusLauncher extends Application
@@ -67,6 +68,14 @@ public class CalculatorusLauncher extends Application
 		//Parenthesis
 		addOpenParenthesisButton(50, 60, 300, 360, pane);
 		addCloseParenthesisButton(50, 60, 350, 360, pane);
+		
+		//Functions
+		addFunctionButton(100, 44, 0, 316, "sin", Operations.SINE, pane);
+		addFunctionButton(100, 44, 100, 316, "cos", Operations.COSINE, pane);
+		addFunctionButton(100, 44, 200, 316, "tan", Operations.TANGENT, pane);
+		
+		//Constants
+		addPiButton(50, 44, 300, 316, pane);
 		
 		//Input and output
 		addText(5, 5, inputText, pane);
@@ -236,7 +245,7 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("'" + "*" + pNum + "(" + "'");
+			addToInput("'" + pNum + "(" + "'");
 			addToVisibleInput("(");
 			pNum++;
 			
@@ -259,10 +268,54 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("'" + ")" + (pNum - 1) + "*" + "'");
+			addToInput("')" + (pNum - 1) + "'");
 			addToVisibleInput(")");
 			pNum--;
 			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addFunctionButton(int width, int height, int x, int y, String name, String function, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText(name);
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'~'" + function + "'");
+			addToVisibleInput(functionNameOf(function));
+			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addPiButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("\u03C0");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput(MathConstants.PI.toPlainString());
+			addToVisibleInput("\u03C0");
+
 		});
 		
 		pane.getChildren().add(button);
@@ -322,6 +375,21 @@ public class CalculatorusLauncher extends Application
 		
 		outputString = output;
 		outputText.setText(outputString);
+		
+	}
+	
+	private String functionNameOf(String function)
+	{
+		
+		switch(function)
+		{
+		
+			case Operations.SINE : return "sin";
+			case Operations.COSINE : return "cos";
+			case Operations.TANGENT : return "tan";
+			default : return "";
+		
+		}
 		
 	}
 	

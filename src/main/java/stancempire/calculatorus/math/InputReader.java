@@ -46,15 +46,12 @@ public class InputReader
 	
 	public BigDecimal compute()
 	{
-		
 		System.out.println(input);
-
-		
-		while(input.contains("*" + pNum + "("))
+		while(input.contains(pNum + "("))
 		{
 			
-			int oIndex = input.indexOf("*" + pNum + "(");
-			int cIndex = input.indexOf(")" + pNum + "*");
+			int oIndex = input.indexOf(pNum + "(");
+			int cIndex = input.indexOf(")" + pNum);
 						
 			BigDecimal calc = createInternalReader(new ArrayList<String>(input.subList(oIndex + 1, cIndex)), ++pNum).compute();
 			
@@ -68,6 +65,18 @@ public class InputReader
 			input.set(oIndex, calc.toPlainString());
 			System.out.println(input);
 			pNum--;			
+			
+		}
+		
+		while(input.contains("~"))
+		{
+
+			int index = input.indexOf("~") + 1;
+			BigDecimal calc = computeFunction(input.get(index), new BigDecimal(input.get(index + 1)));
+			
+			input.set(index, "" + calc);
+			input.remove(index + 1);
+			input.remove(index - 1);
 			
 		}
 		
@@ -142,7 +151,7 @@ public class InputReader
 			
 		}
 		
-		return new BigDecimal(input.get(0)).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return new BigDecimal(input.get(0)).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -162,6 +171,21 @@ public class InputReader
 		}
 		
 		return -1;
+		
+	}
+	
+	private BigDecimal computeFunction(String function, BigDecimal value)
+	{
+		
+		switch(function)
+		{
+		
+			case Operations.SINE : return CalcMath.sine(value);
+			case Operations.COSINE : return CalcMath.cosine(value);
+			case Operations.TANGENT : return CalcMath.tangent(value);
+			default : return BigDecimal.ZERO;
+		
+		}
 		
 	}
 	
