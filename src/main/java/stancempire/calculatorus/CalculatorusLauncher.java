@@ -1,8 +1,17 @@
 package stancempire.calculatorus;
 
+import java.awt.image.BufferedImage;
+
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -19,15 +28,14 @@ public class CalculatorusLauncher extends Application
 	private final Font buttonFont = Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 24);
 	private final Font inputFont = Font.font("Times New Roman", FontWeight.NORMAL, FontPosture.ITALIC, 36);
 	
-	private Text inputText = new Text();
-	private String visibleInputString = "";
-	
 	private String inputString = "";
 	
 	private Text outputText = new Text();
 	private String outputString = "";
 	
 	private int pNum = 0;
+	
+	private TeXFormula visibleInput = new TeXFormula();
 	
 	public static void main(String[] args)
 	{
@@ -41,45 +49,45 @@ public class CalculatorusLauncher extends Application
 	{
 
 		Pane pane = new Pane();
+		Canvas canvas = new Canvas(400, 600);
+		pane.getChildren().add(canvas);
 		
 		//Buttons 0-9
-		addNumberButton(100, 60, 0, 540, 0, pane);
-		addNumberButton(100, 60, 0, 480, 1, pane);
-		addNumberButton(100, 60, 100, 480, 2, pane);
-		addNumberButton(100, 60, 200, 480, 3, pane);
-		addNumberButton(100, 60, 0, 420, 4, pane);
-		addNumberButton(100, 60, 100, 420, 5, pane);
-		addNumberButton(100, 60, 200, 420, 6, pane);
-		addNumberButton(100, 60, 0, 360, 7, pane);
-		addNumberButton(100, 60, 100, 360, 8, pane);
-		addNumberButton(100, 60, 200, 360, 9, pane);
+		addNumberButton(100, 60, 0, 540, 0, pane, canvas);
+		addNumberButton(100, 60, 0, 480, 1, pane, canvas);
+		addNumberButton(100, 60, 100, 480, 2, pane, canvas);
+		addNumberButton(100, 60, 200, 480, 3, pane, canvas);
+		addNumberButton(100, 60, 0, 420, 4, pane, canvas);
+		addNumberButton(100, 60, 100, 420, 5, pane, canvas);
+		addNumberButton(100, 60, 200, 420, 6, pane, canvas);
+		addNumberButton(100, 60, 0, 360, 7, pane, canvas);
+		addNumberButton(100, 60, 100, 360, 8, pane, canvas);
+		addNumberButton(100, 60, 200, 360, 9, pane, canvas);
 		
 		//Standard calculator buttons
 		addEvaluateButton(100, 60, 300, 540, pane);
-		addAllClearButton(100, 60, 100, 540, pane);
+		addAllClearButton(100, 60, 100, 540, canvas, pane);
 		addDelButton(100, 60, 200, 540, pane);
 		
 		//Basic operation buttons
-		addBasicOperationButton(50, 60, 300, 480, Operations.ADD, Operations.ADD, pane);
-		addBasicOperationButton(50, 60, 350, 480, Operations.SUBTRACT, Operations.SUBTRACT, pane);
-		addBasicOperationButton(50, 60, 300, 420, Operations.MULTIPLY, Operations.MULTIPLY, pane);
-		addBasicOperationButton(50, 60, 350, 420, Operations.DIVIDE, Operations.DIVIDE, pane);
+		addBasicOperationButton(50, 60, 300, 480, Operations.ADD, Operations.ADD, "\\plus", canvas, pane);
+		addBasicOperationButton(50, 60, 350, 480, Operations.SUBTRACT, Operations.SUBTRACT, "\\minus", canvas, pane);
+		addBasicOperationButton(50, 60, 300, 420, Operations.MULTIPLY, Operations.MULTIPLY, "\\times", canvas, pane);
+		addBasicOperationButton(50, 60, 350, 420, Operations.DIVIDE, Operations.DIVIDE, "\\div", canvas, pane);
 
 		//Parenthesis
-		addOpenParenthesisButton(50, 60, 300, 360, pane);
-		addCloseParenthesisButton(50, 60, 350, 360, pane);
+		addOpenParenthesisButton(50, 60, 300, 360, canvas, pane);
+		addCloseParenthesisButton(50, 60, 350, 360, canvas, pane);
 		
 		//Functions
-		addFunctionButton(100, 44, 0, 316, "sin", Operations.SINE, pane);
-		addFunctionButton(100, 44, 100, 316, "cos", Operations.COSINE, pane);
-		addFunctionButton(100, 44, 200, 316, "tan", Operations.TANGENT, pane);
+		addFunctionButton(100, 44, 0, 316, "sin", Operations.SINE, canvas, pane);
+		addFunctionButton(100, 44, 100, 316, "cos", Operations.COSINE, canvas, pane);
+		addFunctionButton(100, 44, 200, 316, "tan", Operations.TANGENT, canvas, pane);
 		
 		//Constants
-		addPiButton(50, 44, 300, 316, pane);
-		addEButton(50, 44, 350, 316, pane);
+		addPiButton(50, 44, 300, 316, canvas, pane);
+		addEButton(50, 44, 350, 316, canvas, pane);
 
-		//Input and output
-		addText(5, 5, inputText, pane);
 		addText(5, 50, outputText, pane);
 		
 		stage.setScene(new Scene(pane, 400, 600));
@@ -88,7 +96,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addNumberButton(int width, int height, int x, int y, int number, Pane pane)
+	private void addNumberButton(int width, int height, int x, int y, int number, Pane pane, Canvas canvas)
 	{
 		
 		Button button = new Button();
@@ -102,8 +110,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput(numberStr);
-			addToVisibleInput(numberStr);
+			addToInput(numberStr, canvas);
+			addToVisibleInput(numberStr, canvas);
 
 		});
 		
@@ -152,7 +160,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addAllClearButton(int width, int height, int x, int y, Pane pane)
+	private void addAllClearButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -166,9 +174,8 @@ public class CalculatorusLauncher extends Application
 		{
 			
 			setInput("");
-			setVisibleInput("");
+			setVisibleInput("", canvas);
 			setOutput("");
-			
 		});
 		
 		pane.getChildren().add(button);
@@ -196,28 +203,28 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addBasicOperationButton(int width, int height, int x, int y, String displayString, String internalString, Pane pane)
+	private void addBasicOperationButton(int width, int height, int x, int y, String buttonString, String internalString, String displayString, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
 		
 		button.setPrefSize(width, height);
 		button.relocate(x, y);
-		button.setText(displayString);
+		button.setText(buttonString);
 		button.setFont(buttonFont);
 		
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("'" + internalString + "'");
-			addToVisibleInput(displayString);
+			addToInput("'" + internalString + "'", canvas);
+			addToVisibleInput(displayString, canvas);
 						
 		});
 		
 		pane.getChildren().add(button);
 	}
 	
-	private void addOpenParenthesisButton(int width, int height, int x, int y, Pane pane)
+	private void addOpenParenthesisButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -230,8 +237,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("'" + pNum + "(" + "'");
-			addToVisibleInput("(");
+			addToInput("'" + pNum + "(" + "'", canvas);
+			addToVisibleInput("(", canvas);
 			pNum++;
 			
 		});
@@ -240,7 +247,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addCloseParenthesisButton(int width, int height, int x, int y, Pane pane)
+	private void addCloseParenthesisButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -253,8 +260,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("')" + (pNum - 1) + "'");
-			addToVisibleInput(")");
+			addToInput("')" + (pNum - 1) + "'", canvas);
+			addToVisibleInput(")", canvas);
 			pNum--;
 			
 		});
@@ -263,7 +270,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addFunctionButton(int width, int height, int x, int y, String name, String function, Pane pane)
+	private void addFunctionButton(int width, int height, int x, int y, String name, String function, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -276,8 +283,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput("'~'" + function + "'");
-			addToVisibleInput(functionNameOf(function));
+			addToInput("'~'" + function + "'", canvas);
+			addToVisibleInput(functionLaTeXOf(function), canvas);
 			
 		});
 		
@@ -285,7 +292,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addPiButton(int width, int height, int x, int y, Pane pane)
+	private void addPiButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -298,8 +305,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput(MathConstants.PI.toPlainString());
-			addToVisibleInput("\u03C0");
+			addToInput(MathConstants.PI.toPlainString(), canvas);
+			addToVisibleInput("\\pi", canvas);
 
 		});
 		
@@ -307,7 +314,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addEButton(int width, int height, int x, int y, Pane pane)
+	private void addEButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -320,8 +327,9 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput(MathConstants.E.toPlainString());
-			addToVisibleInput("e");
+			addToInput(MathConstants.E.toPlainString(), canvas);
+			addToVisibleInput("\\mathbf{e}", canvas);
+			refreshInput(canvas);
 
 		});
 		
@@ -338,7 +346,7 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addToInput(String input)
+	private void addToInput(String input, Canvas canvas)
 	{
 		
 		if(!outputString.equals(""))
@@ -346,7 +354,7 @@ public class CalculatorusLauncher extends Application
 			
 			setOutput("");
 			setInput("");
-			setVisibleInput("");
+			setVisibleInput("", canvas);
 			
 		}
 		
@@ -361,19 +369,19 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private void addToVisibleInput(String input)
+	private void addToVisibleInput(String input, Canvas canvas)
 	{
 		
-		visibleInputString = visibleInputString + input;
-		inputText.setText(visibleInputString);
+		visibleInput.add(input);
+		refreshInput(canvas);
 		
 	}
 	
-	private void setVisibleInput(String input)
+	private void setVisibleInput(String input, Canvas canvas)
 	{
 		
-		visibleInputString = input;
-		inputText.setText(visibleInputString);
+		visibleInput.setLaTeX(input);
+		refreshInput(canvas);
 
 	}
 	
@@ -385,18 +393,29 @@ public class CalculatorusLauncher extends Application
 		
 	}
 	
-	private String functionNameOf(String function)
+	private String functionLaTeXOf(String function)
 	{
 		
 		switch(function)
 		{
 		
-			case Operations.SINE : return "sin";
-			case Operations.COSINE : return "cos";
-			case Operations.TANGENT : return "tan";
+			case Operations.SINE : return "\\sin";
+			case Operations.COSINE : return "\\cos";
+			case Operations.TANGENT : return "\\tan";
 			default : return "";
 		
 		}
+		
+	}
+	
+	private void refreshInput(Canvas canvas)
+	{
+		
+		GraphicsContext ctx = canvas.getGraphicsContext2D();
+		ctx.clearRect(0, 0, 400, 600);
+		java.awt.Image aImage = visibleInput.createBufferedImage(TeXConstants.STYLE_TEXT, 36, java.awt.Color.BLACK, null);
+		Image fImage = SwingFXUtils.toFXImage((BufferedImage)aImage, null);
+		ctx.drawImage(fImage, 0, 0);
 		
 	}
 	
