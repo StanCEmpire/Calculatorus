@@ -14,6 +14,13 @@ repositories
 
 }
 
+dependencies
+{
+
+	implementation 'org.scilab.forge:jlatexmath:1.0.7'
+
+}
+
 javafx
 {
 

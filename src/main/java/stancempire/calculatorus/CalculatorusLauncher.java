@@ -76,7 +76,8 @@ public class CalculatorusLauncher extends Application
 		
 		//Constants
 		addPiButton(50, 44, 300, 316, pane);
-		
+		addEButton(50, 44, 350, 316, pane);
+
 		//Input and output
 		addText(5, 5, inputText, pane);
 		addText(5, 50, outputText, pane);
@@ -187,24 +188,8 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			setOutput("");
-			setVisibleInput(visibleInputString.substring(0, visibleInputString.length() - 1));
+			//Currently Non-functional
 			
-			if(inputString.lastIndexOf("'") == inputString.length() - 1)
-			{
-				
-				inputString = inputString.substring(0, inputString.length() - 1);
-				inputString = inputString.substring(0, inputString.lastIndexOf("'"));
-				setInput(inputString);
-								
-			}
-			else
-			{
-				
-				setInput(inputString.substring(0, inputString.length() - 1));
-				
-			}
-
 		});
 		
 		pane.getChildren().add(button);
@@ -315,6 +300,28 @@ public class CalculatorusLauncher extends Application
 			
 			addToInput(MathConstants.PI.toPlainString());
 			addToVisibleInput("\u03C0");
+
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addEButton(int width, int height, int x, int y, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("e");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput(MathConstants.E.toPlainString());
+			addToVisibleInput("e");
 
 		});
 		
