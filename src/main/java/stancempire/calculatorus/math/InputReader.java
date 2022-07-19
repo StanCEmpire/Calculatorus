@@ -50,8 +50,15 @@ public class InputReader
 		//Finds and indicates implicit multiplications
 		for(int i = 0; i < input.size() - 1; i++)
 		{
+			System.out.println(input);
+			if(input.get(i).matches("\\-?([0-9]*\\.)?[0-9]+"))
+			{
+				
+				System.out.println(true);
+				
+			}
 			
-			if(i + 1 < input.size() && input.get(i).matches("\\d") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~")))
+			if(i + 1 < input.size() && input.get(i).matches("\\-?([0-9]*\\.)?[0-9]+") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~")))
 			{
 				
 				input.add(i + 1, Operations.MULTIPLY);
@@ -63,7 +70,7 @@ public class InputReader
 				input.add(i + 2, Operations.MULTIPLY);
 				
 			}
-			else if(input.get(i).contains(")") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~") || input.get(i + 1).matches("\\d")))
+			else if(input.get(i).contains(")") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~") || input.get(i + 1).matches("\\-?([0-9]*\\.)?[0-9]+")))
 			{
 				
 				input.add(i + 1, Operations.MULTIPLY);

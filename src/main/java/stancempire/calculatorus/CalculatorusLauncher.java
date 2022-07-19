@@ -64,8 +64,10 @@ public class CalculatorusLauncher extends Application
 		addNumberButton(100, 60, 100, 360, 8, pane, canvas);
 		addNumberButton(100, 60, 200, 360, 9, pane, canvas);
 		
+		addDecimalPointButton(50, 60, 300, 540, pane, canvas);
+		
 		//Standard calculator buttons
-		addEvaluateButton(100, 60, 300, 540, pane);
+		addEvaluateButton(50, 60, 350, 540, pane);
 		addAllClearButton(100, 60, 100, 540, canvas, pane);
 		addDelButton(100, 60, 200, 540, canvas, pane);
 		
@@ -112,6 +114,28 @@ public class CalculatorusLauncher extends Application
 			
 			addToInput(numberStr, canvas);
 			addToVisibleInput(numberStr, canvas);
+
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addDecimalPointButton(int width, int height, int x, int y, Pane pane, Canvas canvas)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText(".");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput(".", canvas);
+			addToVisibleInput(".", canvas);
 
 		});
 		
