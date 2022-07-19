@@ -1,5 +1,5 @@
 # Calculatorus
-[![Discord](https://img.shields.io/discord/981553727674662942?color=1BFF00&label=Discord&logo=Discord)](https://discord.gg/5QebaRwTjU) [![Latest](https://img.shields.io/github/v/release/stancempire/calculatorus?color=FFA100&label=Latest&logoColor=FFA100)](https://github.com/StanCEmpire/Calculatorus/releases)
+[![Discord](https://img.shields.io/discord/981553727674662942?color=1BFF00&label=Discord&logo=Discord)](https://discord.gg/5QebaRwTjU) [![Latest](https://img.shields.io/github/v/release/stancempire/Calculatorus?color=FFA100&label=Latest&logoColor=FFA100)](https://github.com/StanCEmpire/Calculatorus/releases)
 [![Contributors](https://img.shields.io/github/contributors/stancempire/Calculatorus?color=CDCF00&label=Contributors)](https://github.com/StanCEmpire/Calculatorus/graphs/contributors)
 
 Hello, and welcome to the Calculatorus project!
