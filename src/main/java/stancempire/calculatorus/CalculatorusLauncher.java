@@ -77,6 +77,11 @@ public class CalculatorusLauncher extends Application
 		addBasicOperationButton(50, 60, 300, 420, Operations.MULTIPLY, Operations.MULTIPLY, "\\times", canvas, pane);
 		addBasicOperationButton(50, 60, 350, 420, Operations.DIVIDE, Operations.DIVIDE, "\\div", canvas, pane);
 
+		addStartPowerButton(50, 44, 0, 272, canvas, pane);
+		addEndPowerButton(50, 44, 50, 272, canvas, pane);
+		
+		addFactorialButton(50, 44, 100, 272, canvas, pane);
+		
 		//Parenthesis
 		addOpenParenthesisButton(50, 60, 300, 360, canvas, pane);
 		addCloseParenthesisButton(50, 60, 350, 360, canvas, pane);
@@ -95,6 +100,75 @@ public class CalculatorusLauncher extends Application
 		stage.setScene(new Scene(pane, 400, 600));
 		stage.setResizable(false);
 		stage.show();
+		
+	}
+	
+	private void addFactorialButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("!");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'!'", canvas);
+			addToVisibleInput("!", canvas);
+			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addStartPowerButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("^");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+			
+			addToInput("'^'" + pNum + "('", canvas);
+			addToVisibleInput("^{", canvas);
+			pNum++;
+			
+		});
+		
+		pane.getChildren().add(button);
+		
+	}
+	
+	private void addEndPowerButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
+	{
+		
+		Button button = new Button();
+		
+		button.setPrefSize(width, height);
+		button.relocate(x, y);
+		button.setText("`");
+		button.setFont(buttonFont);
+		
+		button.setOnMousePressed(event ->
+		{
+
+			addToInput("')" + (pNum - 1) + "'", canvas);
+			addToVisibleInput("{}", canvas);
+			tString = tString.replace("{}", "}");
+			setVisibleInput(tString, canvas);
+			pNum--;
+
+		});
+		pane.getChildren().add(button);
 		
 	}
 	
@@ -155,7 +229,8 @@ public class CalculatorusLauncher extends Application
 		
 		button.setOnMousePressed(event ->
 		{
-			
+			System.out.println(tString);
+
 			//remove separator from start
 			if(inputString.charAt(0) == '\'')
 			{
@@ -218,6 +293,8 @@ public class CalculatorusLauncher extends Application
 			setInput("");
 			setVisibleInput("", canvas);
 			setOutput("");
+			tString = "";
+			pNum = 0;
 			
 		});
 		
@@ -446,6 +523,7 @@ public class CalculatorusLauncher extends Application
 			case Operations.SINE : return "\\sin";
 			case Operations.COSINE : return "\\cos";
 			case Operations.TANGENT : return "\\tan";
+			case Operations.POWER : return "^";
 			default : return "";
 		
 		}

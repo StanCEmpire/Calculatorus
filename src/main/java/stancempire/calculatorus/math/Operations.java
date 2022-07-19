@@ -8,6 +8,7 @@ public class Operations
 	public static final String SUBTRACT = "-";
 	public static final String DIVIDE = "\u00F7";
 	public static final String MULTIPLY = "\u00D7";
+	public static final String POWER = "^";
 	
 	//Functions
 	public static final String SINE = "sine";

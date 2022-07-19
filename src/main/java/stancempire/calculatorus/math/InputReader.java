@@ -50,13 +50,6 @@ public class InputReader
 		//Finds and indicates implicit multiplications
 		for(int i = 0; i < input.size() - 1; i++)
 		{
-			System.out.println(input);
-			if(input.get(i).matches("\\-?([0-9]*\\.)?[0-9]+"))
-			{
-				
-				System.out.println(true);
-				
-			}
 			
 			if(i + 1 < input.size() && input.get(i).matches("\\-?([0-9]*\\.)?[0-9]+") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~")))
 			{
@@ -115,6 +108,32 @@ public class InputReader
 			BigDecimal calc = computeFunction(input.get(index), new BigDecimal(input.get(index + 1)));
 			input.set(index, "" + calc);
 			input.remove(index + 1);
+			input.remove(index - 1);
+			
+		}
+		
+		while(input.contains("^"))
+		{
+			
+			int index = input.indexOf("^");
+			
+			BigDecimal x = new BigDecimal(input.get(index - 1));
+			BigDecimal n = new BigDecimal(input.get(index + 1));
+			BigDecimal calc = CalcMath.pow(x, n.intValueExact());
+			input.set(index, "" + calc);
+			input.remove(index + 1);
+			input.remove(index - 1);	
+			
+		}
+		
+		while(input.contains("!"))
+		{
+			
+			int index = input.indexOf("!");
+
+			BigDecimal n = new BigDecimal(input.get(index - 1));
+			BigDecimal calc = CalcMath.fac(n.intValueExact());
+			input.set(index, "" + calc);
 			input.remove(index - 1);
 			
 		}
