@@ -26,7 +26,7 @@ public class CalcMath
 			
 		}
 		
-		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return result.setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -49,7 +49,7 @@ public class CalcMath
 			
 		}
 		
-		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return result.setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -76,21 +76,21 @@ public class CalcMath
 			
 		}
 		
-		return result.setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return result.setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal cosine(BigDecimal x)
 	{
 		
-		return sine(x.add(BigDecimal.valueOf(Math.PI/2))).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return sine(x.add(BigDecimal.valueOf(Math.PI/2))).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal tangent(BigDecimal x)
 	{
 		
-		return sine(x).divide(cosine(x), MathContext.DECIMAL128).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return sine(x).divide(cosine(x), MathContext.DECIMAL128).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
@@ -121,21 +121,21 @@ public class CalcMath
 	public static BigDecimal arcSine(BigDecimal x)
 	{
 		
-		return BigDecimal.valueOf(Math.asin(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return BigDecimal.valueOf(Math.asin(x.doubleValue())).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal arcCosine(BigDecimal x)
 	{
 		
-		return BigDecimal.valueOf(Math.acos(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return BigDecimal.valueOf(Math.acos(x.doubleValue())).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 	
 	public static BigDecimal arcTangent(BigDecimal x)
 	{
 		
-		return BigDecimal.valueOf(Math.atan(x.doubleValue())).setScale(15, RoundingMode.HALF_UP).stripTrailingZeros();
+		return BigDecimal.valueOf(Math.atan(x.doubleValue())).setScale(14, RoundingMode.HALF_UP).stripTrailingZeros();
 		
 	}
 }

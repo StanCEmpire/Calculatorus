@@ -47,6 +47,40 @@ public class InputReader
 	public BigDecimal compute()
 	{
 		
+		//Finds and indicates implicit multiplications
+		for(int i = 0; i < input.size() - 1; i++)
+		{
+			
+			if(i + 1 < input.size() && input.get(i).matches("\\d") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~")))
+			{
+				
+				input.add(i + 1, Operations.MULTIPLY);
+				
+			}
+			else if(i + 2 < input.size() && input.get(i).contains("*") && (input.get(i + 2).contains("(") || input.get(i + 2).contains("*") || input.get(i + 2).contains("~")))
+			{
+				
+				input.add(i + 2, Operations.MULTIPLY);
+				
+			}
+			else if(input.get(i).contains(")") && (input.get(i + 1).contains("(") || input.get(i + 1).contains("*") || input.get(i + 1).contains("~") || input.get(i + 1).matches("\\d")))
+			{
+				
+				input.add(i + 1, Operations.MULTIPLY);
+				
+			}
+		}
+		
+		while(input.contains("*"))
+		{
+			
+			int index = input.indexOf("*") + 1;
+			String val = getConstant(input.get(index));
+			input.set(index, val);
+			input.remove(index - 1);
+			
+		}
+		
 		while(input.contains(pNum + "("))
 		{
 			
@@ -72,7 +106,6 @@ public class InputReader
 
 			int index = input.indexOf("~") + 1;
 			BigDecimal calc = computeFunction(input.get(index), new BigDecimal(input.get(index + 1)));
-			
 			input.set(index, "" + calc);
 			input.remove(index + 1);
 			input.remove(index - 1);
@@ -183,6 +216,20 @@ public class InputReader
 			case Operations.COSINE : return CalcMath.cosine(value);
 			case Operations.TANGENT : return CalcMath.tangent(value);
 			default : return BigDecimal.ZERO;
+		
+		}
+		
+	}
+	
+	private String getConstant(String constant)
+	{
+		
+		switch(constant)
+		{
+		
+			case "e" : return MathConstants.E.toPlainString();
+			case "pi" : return MathConstants.PI.toPlainString();
+			default : return "";
 		
 		}
 		

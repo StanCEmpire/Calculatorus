@@ -19,7 +19,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import stancempire.calculatorus.math.InputReader;
-import stancempire.calculatorus.math.MathConstants;
 import stancempire.calculatorus.math.Operations;
 
 public class CalculatorusLauncher extends Application
@@ -36,6 +35,7 @@ public class CalculatorusLauncher extends Application
 	private int pNum = 0;
 	
 	private TeXFormula visibleInput = new TeXFormula();
+	private String tString = "";
 	
 	public static void main(String[] args)
 	{
@@ -67,7 +67,7 @@ public class CalculatorusLauncher extends Application
 		//Standard calculator buttons
 		addEvaluateButton(100, 60, 300, 540, pane);
 		addAllClearButton(100, 60, 100, 540, canvas, pane);
-		addDelButton(100, 60, 200, 540, pane);
+		addDelButton(100, 60, 200, 540, canvas, pane);
 		
 		//Basic operation buttons
 		addBasicOperationButton(50, 60, 300, 480, Operations.ADD, Operations.ADD, "\\plus", canvas, pane);
@@ -152,7 +152,25 @@ public class CalculatorusLauncher extends Application
 			inputString = inputString.replace("''", "'");
 			
 			InputReader reader = InputReader.createReader(inputString);
-			setOutput(reader.compute().toPlainString());
+			
+			try
+			{
+				
+				setOutput(reader.compute().toPlainString());
+				
+			}
+			catch(NumberFormatException | IndexOutOfBoundsException e)
+			{
+				
+				setOutput("INPUT ERROR");
+				
+			}
+			catch(ArithmeticException e)
+			{
+				
+				setOutput("MATH ERROR");
+				
+			}
 			
 		});
 		
@@ -176,13 +194,14 @@ public class CalculatorusLauncher extends Application
 			setInput("");
 			setVisibleInput("", canvas);
 			setOutput("");
+			
 		});
 		
 		pane.getChildren().add(button);
 		
 	}
 	
-	private void addDelButton(int width, int height, int x, int y, Pane pane)
+	private void addDelButton(int width, int height, int x, int y, Canvas canvas, Pane pane)
 	{
 		
 		Button button = new Button();
@@ -195,7 +214,7 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			//Currently Non-functional
+			//Currently non-functional
 			
 		});
 		
@@ -305,7 +324,7 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput(MathConstants.PI.toPlainString(), canvas);
+			addToInput("'*'pi", canvas);
 			addToVisibleInput("\\pi", canvas);
 
 		});
@@ -327,7 +346,7 @@ public class CalculatorusLauncher extends Application
 		button.setOnMousePressed(event ->
 		{
 			
-			addToInput(MathConstants.E.toPlainString(), canvas);
+			addToInput("'*'e", canvas);
 			addToVisibleInput("\\mathbf{e}", canvas);
 			refreshInput(canvas);
 
@@ -374,6 +393,7 @@ public class CalculatorusLauncher extends Application
 		
 		visibleInput.add(input);
 		refreshInput(canvas);
+		tString = tString + input;
 		
 	}
 	
